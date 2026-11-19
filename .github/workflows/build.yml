@@ -1,3 +1,4 @@
+```yaml
 name: Build Android APK
 
 on:
@@ -13,40 +14,27 @@ jobs:
       - name: Pobierz kod projektu
         uses: actions/checkout@v4
 
-      - name: Skonfiguruj Javę (JDK 17)
+      - name: Skonfiguruj Javę
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Sprawdź strukturę projektu
-        run: |
-          echo "Aktualny katalog:"
-          pwd
-          echo "Pliki projektu:"
-          ls -la
-          echo "Poszukiwanie gradlew:"
-          find . -name gradlew -type f
+      - name: Skonfiguruj Gradle 9.3.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.3.1'
 
-      - name: Znajdź Gradle Wrapper
-        run: |
-          GRADLEW=$(find . -name gradlew -type f | head -n 1)
-          if [ -z "$GRADLEW" ]; then
-            echo "BŁĄD: Nie znaleziono pliku gradlew!"
-            exit 1
-          fi
-          chmod +x "$GRADLEW"
-          echo "GRADLEW=$GRADLEW" >> $GITHUB_ENV
+      - name: Sprawdź wersję Gradle
+        run: gradle --version
 
       - name: Zbuduj plik APK
-        run: |
-          cd "$(dirname "$GRADLEW")"
-          ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: Udostępnij gotowy plik APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: '**/build/outputs/apk/debug/*.apk'
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-
+```
