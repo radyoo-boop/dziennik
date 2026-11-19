@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Dziennik Zdarzeń</string>
+    <string name="nav_new_report">Nowy raport</string>
+    <string name="nav_history">Historia</string>
+    <string name="drive_connected">Połączono z Dyskiem Google</string>
+    <string name="drive_not_connected">Połącz z Dyskiem Google</string>
+    <string name="sign_in_google">Zaloguj przez Google</string>
+    <string name="authorize_drive">Autoryzuj Dysk Google</string>
+    <string name="send_to_drive">Wyślij na Dysk Google</string>
+    <string name="save_draft">Zapisz szkic</string>
+    <string name="pick_photos">Z galerii</string>
+    <string name="take_photo">Aparat</string>
+</resources>

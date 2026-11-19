@@ -1,0 +1,6 @@
+{
+  "name": "Dziennik Zdarzeń",
+  "description": "Aplikacja do tworzenia raportów zdarzeń (data, opis, zdjęcia) i wysyłania ich bezpośrednio na Dysk Google.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
