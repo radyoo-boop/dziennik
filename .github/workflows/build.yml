@@ -16,17 +16,37 @@ jobs:
       - name: Skonfiguruj Javę (JDK 17)
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: '17'
 
-      - name: Nadaj uprawnienia dla Gradle
-        run: chmod +x gradlew
+      - name: Sprawdź strukturę projektu
+        run: |
+          echo "Aktualny katalog:"
+          pwd
+          echo "Pliki projektu:"
+          ls -la
+          echo "Poszukiwanie gradlew:"
+          find . -name gradlew -type f
+
+      - name: Znajdź Gradle Wrapper
+        run: |
+          GRADLEW=$(find . -name gradlew -type f | head -n 1)
+          if [ -z "$GRADLEW" ]; then
+            echo "BŁĄD: Nie znaleziono pliku gradlew!"
+            exit 1
+          fi
+          chmod +x "$GRADLEW"
+          echo "GRADLEW=$GRADLEW" >> $GITHUB_ENV
 
       - name: Zbuduj plik APK
-        run: ./gradlew assembleDebug
+        run: |
+          cd "$(dirname "$GRADLEW")"
+          ./gradlew assembleDebug
 
-      - name: Udostępnij gotowy plik APK do pobrania
+      - name: Udostępnij gotowy plik APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
+
